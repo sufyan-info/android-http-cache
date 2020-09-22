@@ -104,6 +104,7 @@ final class HttpProxyCacheServerClients {
             message.arg1 = (int) percentsAvailable;
             Bundle data =  new Bundle();
             data.putDouble(KEY_ACTUAL_PERCENTAGE, percentsAvailable);
+            message.setData(data);
             message.obj = file;
             sendMessage(message);
         }
