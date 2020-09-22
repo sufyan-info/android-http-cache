@@ -28,7 +28,7 @@ class ProxyCache {
     private final AtomicInteger readSourceErrorsCount;
     private volatile Thread sourceReaderThread;
     private volatile boolean stopped;
-    private volatile int percentsAvailable = -1;
+    private volatile double percentsAvailable = -1;
 
     public ProxyCache(Source source, Cache cache) {
         this.source = checkNotNull(source);
@@ -45,7 +45,7 @@ class ProxyCache {
             checkReadSourceErrorsCount();
         }
         int read = cache.read(buffer, offset, length);
-        if (cache.isCompleted() && percentsAvailable != 100) {
+        if (cache.isCompleted() && percentsAvailable != 100.0f) {
             percentsAvailable = 100;
             onCachePercentsAvailableChanged(100);
         }
@@ -103,7 +103,7 @@ class ProxyCache {
 
     protected void onCacheAvailable(long cacheAvailable, long sourceLength) {
         boolean zeroLengthSource = sourceLength == 0;
-        int percents = zeroLengthSource ? 100 : (int) ((float) cacheAvailable / sourceLength * 100);
+        double percents = zeroLengthSource ? 100.0f : ((float) cacheAvailable / sourceLength * 100.0f);
         boolean percentsChanged = percents != percentsAvailable;
         boolean sourceLengthKnown = sourceLength >= 0;
         if (sourceLengthKnown && percentsChanged) {
@@ -112,7 +112,7 @@ class ProxyCache {
         percentsAvailable = percents;
     }
 
-    protected void onCachePercentsAvailableChanged(int percentsAvailable) {
+    protected void onCachePercentsAvailableChanged(double percentsAvailable) {
     }
 
     private void readSource() {
@@ -147,7 +147,7 @@ class ProxyCache {
 
     private void onSourceRead() {
         // guaranteed notify listeners after source read and cache completed
-        percentsAvailable = 100;
+        percentsAvailable = 100.0f;
         onCachePercentsAvailableChanged(percentsAvailable);
     }
 

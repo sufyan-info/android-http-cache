@@ -1,5 +1,6 @@
 package com.ornoma.httpcache;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -87,7 +88,7 @@ final class HttpProxyCacheServerClients {
     }
 
     private static final class UiListenerHandler extends Handler implements CacheListener {
-
+        private static final String KEY_ACTUAL_PERCENTAGE = "actualPercentage";
         private final String url;
         private final List<CacheListener> listeners;
 
@@ -98,9 +99,11 @@ final class HttpProxyCacheServerClients {
         }
 
         @Override
-        public void onCacheAvailable(File file, String url, int percentsAvailable) {
+        public void onCacheAvailable(File file, String url, double percentsAvailable) {
             Message message = obtainMessage();
-            message.arg1 = percentsAvailable;
+            message.arg1 = (int) percentsAvailable;
+            Bundle data =  new Bundle();
+            data.putDouble(KEY_ACTUAL_PERCENTAGE, percentsAvailable);
             message.obj = file;
             sendMessage(message);
         }
@@ -108,7 +111,7 @@ final class HttpProxyCacheServerClients {
         @Override
         public void handleMessage(Message msg) {
             for (CacheListener cacheListener : listeners) {
-                cacheListener.onCacheAvailable((File) msg.obj, url, msg.arg1);
+                cacheListener.onCacheAvailable((File) msg.obj, url, msg.getData().getDouble(KEY_ACTUAL_PERCENTAGE));
             }
         }
     }
