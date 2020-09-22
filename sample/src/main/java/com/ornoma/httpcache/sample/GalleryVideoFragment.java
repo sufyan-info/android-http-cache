@@ -6,9 +6,8 @@ import android.support.v4.app.Fragment;
 import android.widget.SeekBar;
 import android.widget.VideoView;
 
-import com.danikula.videocache.CacheListener;
-import com.danikula.videocache.HttpProxyCacheServer;
-import com.danikula.videocache.sample.R;
+import com.ornoma.httpcache.CacheListener;
+import com.ornoma.httpcache.HttpProxyCacheServer;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -97,8 +96,8 @@ public class GalleryVideoFragment extends Fragment implements CacheListener {
     }
 
     @Override
-    public void onCacheAvailable(File file, String url, int percentsAvailable) {
-        progressBar.setSecondaryProgress(percentsAvailable);
+    public void onCacheAvailable(File file, String url, double percentsAvailable) {
+        progressBar.setSecondaryProgress((int)percentsAvailable);
     }
 
     private void updateVideoProgress() {

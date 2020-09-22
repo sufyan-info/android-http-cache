@@ -46,8 +46,8 @@ class ProxyCache {
         }
         int read = cache.read(buffer, offset, length);
         if (cache.isCompleted() && percentsAvailable != 100.0f) {
-            percentsAvailable = 100;
-            onCachePercentsAvailableChanged(100);
+            percentsAvailable = 100.0f;
+            onCachePercentsAvailableChanged(100.0f);
         }
         return read;
     }

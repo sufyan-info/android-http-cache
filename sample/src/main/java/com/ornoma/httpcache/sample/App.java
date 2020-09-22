@@ -3,7 +3,7 @@ package com.ornoma.httpcache.sample;
 import android.app.Application;
 import android.content.Context;
 
-import com.danikula.videocache.HttpProxyCacheServer;
+import com.ornoma.httpcache.HttpProxyCacheServer;
 
 /**
  * @author Alexey Danilov (danikula@gmail.com).
